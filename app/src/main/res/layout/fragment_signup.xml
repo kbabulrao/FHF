@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/ll_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_launcher" />
+
+            <EditText
+                android:id="@+id/edt_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:background="@drawable/rounded_corner"
+                android:drawableLeft="@android:drawable/ic_dialog_email"
+                android:drawablePadding="5dp"
+                android:ellipsize="end"
+                android:hint="@string/user_name"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="5dp" />
+
+            <EditText
+                android:id="@+id/edt_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:background="@drawable/rounded_corner"
+                android:drawableLeft="@android:drawable/stat_sys_phone_call"
+                android:drawablePadding="5dp"
+                android:ellipsize="end"
+                android:hint="@string/phone_number"
+                android:inputType="number"
+                android:maxLines="1"
+                android:padding="5dp" />
+
+            <EditText
+                android:id="@+id/edt_mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:background="@drawable/rounded_corner"
+                android:drawableLeft="@android:drawable/ic_dialog_email"
+                android:drawablePadding="5dp"
+                android:ellipsize="end"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:padding="5dp" />
+
+            <EditText
+                android:id="@+id/edt_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_corner"
+                android:drawableLeft="@android:drawable/ic_secure"
+                android:drawablePadding="5dp"
+                android:ellipsize="end"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:padding="5dp" />
+
+            <EditText
+                android:id="@+id/edt_cnf_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_corner"
+                android:drawableLeft="@android:drawable/ic_secure"
+                android:drawablePadding="5dp"
+                android:ellipsize="end"
+                android:hint="@string/cnf_pwd"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:padding="5dp" />
+
+            <CheckBox
+                android:id="@+id/cb_remember_member_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:checked="false"
+                android:text="@string/agree_terms" />
+
+            <TextView
+                android:id="@+id/tv_sign_in"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text="@string/sign_up"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

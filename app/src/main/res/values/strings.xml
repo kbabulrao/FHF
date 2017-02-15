@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">FHF</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="sign_with">SIGN IN WITH</string>
+    <string name="or">or</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="forgot_pwd">Forgot Password?</string>
+    <string name="dont_have_act">Don\'t have an Account</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="user_name">User Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="cnf_pwd">Confirm Password</string>
+    <string name="agree_terms">By signing up, I agree to the Terms &amp; Conditions</string>
+    <string name="reset_pwd">Enter your mail ID and we will send you a link to reset your password</string>
+    <string name="send">SEND</string>
+
+    <string name="facebook_app_id">415313148637614</string><!-- TO-DO replace facebook APP-ID-->
+</resources>
