@@ -11,11 +11,15 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.fhf.R;
 import com.fhf.constants.AppConstants;
 import com.fhf.fragments.SignInFragment;
 import com.fhf.interfaces.CommunicationListener;
+import com.fhf.services.SignInService;
+import com.fhf.utils.Utils;
 
 /**
  * Created by santosh on 2/10/2017.
@@ -28,7 +32,7 @@ public class SignInActivity extends BaseActivity implements CommunicationListene
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_signin);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         mTitle = (TextView) findViewById(R.id.toolbar_title);
@@ -79,12 +83,34 @@ public class SignInActivity extends BaseActivity implements CommunicationListene
     private class SignInServiceResultReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-
+            unRegisterSignInServiceResultReceiver();
+            if (progressDlg != null && progressDlg.isShowing()) {
+                progressDlg.dismiss();
+            }
+            if (intent.getBooleanExtra(AppConstants.SUCCESS_TEXT, false)) {
+                if (intent.getStringExtra("error_msg") == null) {
+                    redirectToHomeActivity();
+                } else {
+                    Utils.showSnackBarWithoutAction(SignInActivity.this, toolbar, intent.getStringExtra("error_msg"));
+                }
+            } else {
+                VolleyError volleyError = new VolleyError(intent.getStringExtra(AppConstants.ERROR_TEXT));
+                Utils.showSnackBarWithoutAction(SignInActivity.this, toolbar, volleyError);
+//                Toast.makeText(SignInActivity.this, intent.getStringExtra(AppConstants.ERROR_TEXT), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
-    private void registerReceiver() {
+    void redirectToHomeActivity() {
+        Intent homeActivity = new Intent(this, MainActivity.class);
+        startActivity(homeActivity);
+        finish();
+    }
+
+    private void registerSignInReceiver() {
+        redirectToHomeActivity();
         if (signInServiceResultReceiver == null) {
+            progressDlg.show();
             signInServiceResultReceiver = new SignInServiceResultReceiver();
             IntentFilter intentFilter = new IntentFilter(AppConstants.LOGIN_SERVICE);
             LocalBroadcastManager.getInstance(this).registerReceiver(signInServiceResultReceiver, intentFilter);
@@ -96,5 +122,17 @@ public class SignInActivity extends BaseActivity implements CommunicationListene
             LocalBroadcastManager.getInstance(this).unregisterReceiver(signInServiceResultReceiver);
             signInServiceResultReceiver = null;
         }
+    }
+
+    public void callSignInWebService(String username, String password) {
+        registerSignInReceiver();
+        SignInService signInService = new SignInService(this);
+        signInService.validateUser(username, password);
+    }
+
+    public void callSignUpWebService(String username, String phone, String email, String password) {
+        registerSignInReceiver();
+        SignInService signInService = new SignInService(this);
+        signInService.registerUser(username, phone, email, password);
     }
 }

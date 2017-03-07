@@ -9,10 +9,12 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,10 +29,11 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.fhf.R;
-import com.fhf.activities.MainActivity;
+import com.fhf.activities.SignInActivity;
 import com.fhf.data.AppSessionData;
 import com.fhf.data.User;
 import com.fhf.interfaces.CommunicationListener;
+import com.fhf.utils.Utils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
@@ -72,7 +75,6 @@ public class SignInFragment extends BaseFragment implements View.OnClickListener
     GoogleApiAvailability google_api_availability;
     SignInButton signIn_btn;
     private static final int SIGN_IN_CODE = 0;
-    private static final int PROFILE_PIC_SIZE = 120;
     private ConnectionResult connection_result;
     private boolean is_intent_inprogress;
     private boolean is_signInBtn_clicked;
@@ -95,6 +97,8 @@ public class SignInFragment extends BaseFragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_signin, container, false);
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         findViews(view);
         hideKeyBoard(edtEmail);
@@ -121,13 +125,16 @@ public class SignInFragment extends BaseFragment implements View.OnClickListener
         tvSignIn.setOnClickListener(this);
         tvSignUp.setOnClickListener(this);
         tvForgotPwd.setOnClickListener(this);
+
+        edtEmail.setText("santu758.msb@gmail.com");
+        edtPwd.setText("test1234");
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_sign_in:
-                redirectToHomeActivity();
+                validateUser();
                 break;
             case R.id.tv_sign_up:
                 listener.loadFragment(new SignUpFragment(), getString(R.string.sign_up));
@@ -143,10 +150,12 @@ public class SignInFragment extends BaseFragment implements View.OnClickListener
         }
     }
 
-    void redirectToHomeActivity(){
-        Intent homeActivity = new Intent(getActivity(), MainActivity.class);
-        startActivity(homeActivity);
-        getActivity().finish();
+    void validateUser() {
+        if (Utils.isValidEmail(edtEmail.getText().toString().trim()) && !TextUtils.isEmpty(edtPwd.getText().toString().trim())) {
+            ((SignInActivity) getActivity()).callSignInWebService(edtEmail.getText().toString().trim(), edtPwd.getText().toString().trim());
+        } else {
+            Toast.makeText(getActivity(), "Please check your username/password", Toast.LENGTH_SHORT).show();
+        }
     }
 
     void loginToFacebook() {
@@ -278,21 +287,25 @@ public class SignInFragment extends BaseFragment implements View.OnClickListener
 
     public void onStart() {
         super.onStart();
-        google_api_client.connect();
+//        google_api_client.connect();
     }
 
     public void onStop() {
         super.onStop();
+/*
         if (google_api_client.isConnected()) {
             google_api_client.disconnect();
         }
+*/
     }
 
     public void onResume() {
         super.onResume();
+/*
         if (google_api_client.isConnected()) {
             google_api_client.connect();
         }
+*/
     }
 
     @Override

@@ -9,7 +9,13 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.facebook.FacebookSdk;
+import com.fhf.data.EnvironmentSettings;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -20,10 +26,17 @@ import java.security.NoSuchAlgorithmException;
 public class FHFApplication extends Application {
 
     private static Context context;
+    public static final int PROD = 0;
+    public static final int DEV = 1;
+    public static int env = DEV;
+    private static EnvironmentSettings envSettings;
+    public static String environment;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        context = getApplicationContext();
+        loadEnvironmentValues();
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         try {
@@ -43,7 +56,37 @@ public class FHFApplication extends Application {
     }
 
     public static Context getAppContext() {
-        context = getAppContext();
         return context;
     }
+
+    private void loadEnvironmentValues() {
+        Log.v("loadEnvironmentValues", "loadEnvironmentValues=");
+        try {
+            String settingsFile = null;
+            switch (env) {
+                case PROD:
+                    settingsFile = "app_settings_prod.json";
+                    environment = "prod";
+                    break;
+                case DEV:
+                    settingsFile = "app_settings_dev.json";
+                    environment = "dev";
+                    break;
+            }
+            InputStream inputStream = this.getAssets().open(settingsFile);
+            JsonReader jsonReader = new JsonReader(new InputStreamReader(inputStream));
+            Gson gson = new Gson();
+            envSettings = gson.fromJson(jsonReader, EnvironmentSettings.class);
+
+            Log.d("URL", getEnvSettings().getBaseUrl());
+
+        } catch (IOException e) {
+            Log.d("EnvironmentSettings", "Error loading env values", e);
+        }
+    }
+
+    public static EnvironmentSettings getEnvSettings() {
+        return envSettings;
+    }
+
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,7 +26,7 @@ import com.fhf.fragments.MembersFragment;
 import com.fhf.fragments.SettingsFragment;
 import com.fhf.fragments.ShareFragment;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -91,31 +92,44 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment fragment = null;
+        String tag = null;
 
         if (id == R.id.nav_home) {
-            new HomeFragment();
+            tag = "Home";
+            fragment = new HomeFragment();
         } else if (id == R.id.nav_gallery) {
-            new GalleryFragment();
+            tag = "Gallery";
+            fragment = new GalleryFragment();
         } else if (id == R.id.nav_events) {
-            new EventsFragment();
+            tag = "Events";
+            fragment = new EventsFragment();
         } else if (id == R.id.nav_join_us) {
-            new JoinUsFragment();
+            tag = "Join Us";
+            fragment = new JoinUsFragment();
         } else if (id == R.id.nav_about_us) {
-            new AboutUsFragment();
+            tag = "About Us";
+            fragment = new AboutUsFragment();
         } else if (id == R.id.nav_contact_us) {
-            new ContactUsFragment();
+            tag = "Contact Us";
+            fragment = new ContactUsFragment();
         } else if (id == R.id.nav_settings) {
-            new SettingsFragment();
+            tag = "Settings";
+            fragment = new SettingsFragment();
         } else if (id == R.id.nav_chat) {
-            new ChatFragment();
+            tag = "Chat";
+            fragment = new ChatFragment();
         } else if (id == R.id.nav_share) {
-            new ShareFragment();
+            tag = "Share";
+            fragment = new ShareFragment();
         } else if (id == R.id.nav_members) {
-            new MembersFragment();
+            tag = "Members";
+            fragment = new MembersFragment();
         } else if (id == R.id.nav_logout) {
 
         }
 
+        loadFragment(fragment, R.id.content_main, tag);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

@@ -60,15 +60,18 @@ public abstract class BaseWsImpl {
 
     public void postService(String serviceUrl, JSONObject jsonRequest, String tag) {
 
+        Log.d("server url", serviceUrl);
         JsonObjectRequest reqs = new JsonObjectRequest(Request.Method.POST, serviceUrl, jsonRequest,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.d("server response", response.toString());
                         parseResponse(response.toString());
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d("server error", error.toString());
                 broadcastError(error);
             }
         }
@@ -89,15 +92,18 @@ public abstract class BaseWsImpl {
 
     public void getService(String serviceUrl, JSONObject jsonRequest, String tag) {
 
+        Log.d("server url", serviceUrl);
         JsonObjectRequest reqs = new JsonObjectRequest(Request.Method.GET, serviceUrl, jsonRequest,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        parseResponse(response.toString());
+                        Log.d("server response", response.toString());
+                        parseResponse(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d("server error", error.toString());
                 broadcastError(error);
             }
         }

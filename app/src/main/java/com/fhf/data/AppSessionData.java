@@ -3,63 +3,56 @@ package com.fhf.data;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.fhf.FHFApplication;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
- * Created by Santosh on 11/6/2015.
+ * Created by santosh on 3/7/2017.
  */
+
 public class AppSessionData {
 
-    public static String FHF_APP = "FHFApp";
-    public String USER_PREFS = "user_prefs";
-    public String CURRENT_USER_VALUES = "current_user_value";
-    public static String SHPREF_KEY_ACCESS_TOKEN = "SHPREF_KEY_ACCESS_TOKEN";
+    private static AppSessionData appSessionData;
+    private User user;
+    SharedPreferences pref;
 
-    private static AppSessionData sessionData;
+    //app level names
+    public static final String SHARED_PREFERENCE_NAME = "FHF";
+    public static final String SHARED_PREFERENCE_NAME_LOCATION = "FHFLOCATION";
 
-    public static boolean isCompanyFeedEnabled() {
-        boolean isCompanyFeedEnabled = FHFApplication.getAppContext().getSharedPreferences(FHF_APP, Context.MODE_PRIVATE).getBoolean(SHPREF_KEY_ACCESS_TOKEN, false);
-        return isCompanyFeedEnabled;
-    }
+    public static final String SHRPRF_KEY_USER = "USER";
 
-    public static void setCompanyFeedEnabled(boolean companyFeedEnabled) {
-        SharedPreferences.Editor prefsEditor = FHFApplication.getAppContext().getSharedPreferences(FHF_APP, Context.MODE_PRIVATE).edit();
-        prefsEditor.putBoolean(SHPREF_KEY_ACCESS_TOKEN, companyFeedEnabled);
-        prefsEditor.commit();
-    }
-
-    public void setCurrentUser(User currentUser, Context ctx) {
-        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, USER_PREFS, 0);
-        complexPreferences.putObject(CURRENT_USER_VALUES, currentUser);
-        complexPreferences.commit();
-    }
-
-    public User getCurrentUser(Context ctx) {
-        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, USER_PREFS, 0);
-        User currentUser = complexPreferences.getObject(CURRENT_USER_VALUES, User.class);
-        return currentUser;
-    }
-
-    public void clearCurrentUser(Context ctx) {
-        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, USER_PREFS, 0);
-        complexPreferences.clearObject();
-        complexPreferences.commit();
-    }
-
-    /**
-     * Create private constructor
-     */
     private AppSessionData() {
-    }
-
-    /**
-     * Create a static method to get instance.
-     */
-    public static AppSessionData getSessionDataInstance() {
-        if (sessionData == null) {
-            sessionData = new AppSessionData();
+        if (appSessionData == null) {
+            appSessionData = new AppSessionData();
         }
-        return sessionData;
     }
 
+    public static AppSessionData getSessionDataInstance() {
+        return appSessionData;
+    }
+
+    public void setCurrentUser(User user, Context context) {
+
+        if (pref == null) {
+            pref = context.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+        }
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.create();
+        String userJsonString = gson.toJson(user);
+
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(SHRPRF_KEY_USER, userJsonString);
+        editor.commit();
+    }
+
+    public static String getValueFromSharedPreferences(String key, Context context) {
+        Gson gson = new Gson();
+        SharedPreferences pref = context.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+
+        String value = pref.getString(key, "");
+        User userDataModel = gson.fromJson(value, User.class);
+        return value;
+
+    }
 }
