@@ -84,19 +84,21 @@ public class SignInActivity extends BaseActivity implements CommunicationListene
         @Override
         public void onReceive(Context context, Intent intent) {
             unRegisterSignInServiceResultReceiver();
-            if (progressDlg != null && progressDlg.isShowing()) {
-                progressDlg.dismiss();
-            }
-            if (intent.getBooleanExtra(AppConstants.SUCCESS_TEXT, false)) {
-                if (intent.getStringExtra("error_msg") == null) {
-                    redirectToHomeActivity();
-                } else {
-                    Utils.showSnackBarWithoutAction(SignInActivity.this, toolbar, intent.getStringExtra("error_msg"));
+            if (!isFinishing()) {
+                if (progressDlg != null && progressDlg.isShowing()) {
+                    progressDlg.dismiss();
                 }
-            } else {
-                VolleyError volleyError = new VolleyError(intent.getStringExtra(AppConstants.ERROR_TEXT));
-                Utils.showSnackBarWithoutAction(SignInActivity.this, toolbar, volleyError);
+                if (intent.getBooleanExtra(AppConstants.SUCCESS_TEXT, false)) {
+                    if (intent.getStringExtra("error_msg") == null) {
+                        redirectToHomeActivity();
+                    } else {
+                        Utils.showSnackBarWithoutAction(SignInActivity.this, toolbar, intent.getStringExtra("error_msg"));
+                    }
+                } else {
+                    VolleyError volleyError = new VolleyError(intent.getStringExtra(AppConstants.ERROR_TEXT));
+                    Utils.showSnackBarWithoutAction(SignInActivity.this, toolbar, volleyError);
 //                Toast.makeText(SignInActivity.this, intent.getStringExtra(AppConstants.ERROR_TEXT), Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
