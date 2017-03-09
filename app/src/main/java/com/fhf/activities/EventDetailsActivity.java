@@ -3,6 +3,7 @@ package com.fhf.activities;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -36,6 +37,19 @@ public class EventDetailsActivity extends BaseActivity implements ViewPager.OnPa
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("Event Details");
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         setReference();
     }
 
@@ -107,13 +121,13 @@ public class EventDetailsActivity extends BaseActivity implements ViewPager.OnPa
 
         dots[position].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
 
-        if (position + 1 == dotsCount) {
+        /*if (position + 1 == dotsCount) {
             btnNext.setVisibility(View.GONE);
             btnFinish.setVisibility(View.VISIBLE);
         } else {
             btnNext.setVisibility(View.VISIBLE);
             btnFinish.setVisibility(View.GONE);
-        }
+        }*/
     }
 
     @Override

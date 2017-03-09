@@ -51,7 +51,7 @@ public class EventsFragment extends BaseFragment implements SwipeRefreshLayout.O
                     public void onItemClick(View view, int position) {
                         // do whatever
                         Intent eventDetails = new Intent(getActivity(), EventDetailsActivity.class);
-                        eventDetails.putExtra("eventObj", eventsArray.get(position));
+                        eventDetails.putExtra("eventObj", eventsArray.get(0));
                         startActivity(eventDetails);
                     }
                 })
@@ -89,7 +89,6 @@ public class EventsFragment extends BaseFragment implements SwipeRefreshLayout.O
             } else {
                 rvEventsList.getRecycledViewPool().clear();
                 eventsAdapter.notifyDataSetChanged();
-
             }
 
         } else {
