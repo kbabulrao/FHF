@@ -1,6 +1,7 @@
 package com.fhf.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fhf.R;
+import com.fhf.activities.EventDetailsActivity;
 import com.fhf.adapters.EventsAdapter;
 import com.fhf.utils.Utils;
 
@@ -40,13 +42,17 @@ public class EventsFragment extends BaseFragment implements SwipeRefreshLayout.O
         findViews(view);
         updateAdapter();
 
-        mSwipeRefresh.setRefreshing(true);
+//        mSwipeRefresh.setRefreshing(true);
+        eventsArray.add(null);
 
         rvEventsList.addOnItemTouchListener(
                 new Utils.RecyclerItemClickListener(getActivity(), new Utils.RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         // do whatever
+                        Intent eventDetails = new Intent(getActivity(), EventDetailsActivity.class);
+                        eventDetails.putExtra("eventObj", eventsArray.get(position));
+                        startActivity(eventDetails);
                     }
                 })
         );
