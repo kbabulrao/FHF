@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin">
+
+    <Button
+        android:id="@+id/btn_share_fb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Share on facebook"
+        android:textAllCaps="true" />
+
+    <Button
+        android:id="@+id/btn_share_twitter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Share on twitter"
+        android:textAllCaps="true" />
+
+    <Button
+        android:id="@+id/btn_share_google"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Share on google+"
+        android:textAllCaps="true" />
+</LinearLayout>

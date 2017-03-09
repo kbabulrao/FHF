@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.fhf.R;
 
@@ -15,8 +14,6 @@ import com.fhf.R;
 
 public class ShareFragment extends BaseFragment {
 
-    TextView tvTitle;
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -24,15 +21,13 @@ public class ShareFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_share, container, false);
 
         findViews(view);
         return view;
     }
 
     void findViews(View view) {
-        tvTitle = (TextView) view.findViewById(R.id.tvHome);
-        tvTitle.setText("Share");
     }
 
     @Override

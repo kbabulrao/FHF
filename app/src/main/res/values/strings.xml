@@ -26,6 +26,10 @@
     <string name="your_name">Your Name...</string>
     <string name="your_email">Your Email...</string>
     <string name="your_msg">Write down your message...</string>
-    
+    <string name="dob">Date Of Birth</string>
+    <string name="submit">SUBMIT</string>
+    <string name="notifications">Notifications</string>
+    <string name="change_password">Change Pasword</string>
+
     <string name="facebook_app_id">415313148637614</string><!-- TO-DO replace facebook APP-ID-->
 </resources>

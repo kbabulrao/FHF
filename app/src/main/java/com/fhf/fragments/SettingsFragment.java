@@ -15,8 +15,6 @@ import com.fhf.R;
 
 public class SettingsFragment extends BaseFragment {
 
-    TextView tvTitle;
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -24,15 +22,13 @@ public class SettingsFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
         findViews(view);
         return view;
     }
 
     void findViews(View view) {
-        tvTitle = (TextView) view.findViewById(R.id.tvHome);
-        tvTitle.setText("Settings");
     }
 
     @Override
