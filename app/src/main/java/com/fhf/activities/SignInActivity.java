@@ -110,7 +110,6 @@ public class SignInActivity extends BaseActivity implements CommunicationListene
     }
 
     private void registerSignInReceiver() {
-        redirectToHomeActivity();
         if (signInServiceResultReceiver == null) {
             progressDlg.show();
             signInServiceResultReceiver = new SignInServiceResultReceiver();

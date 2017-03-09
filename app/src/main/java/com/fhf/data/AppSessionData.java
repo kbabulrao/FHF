@@ -3,6 +3,7 @@ package com.fhf.data;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.fhf.FHFApplication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -13,7 +14,6 @@ import com.google.gson.GsonBuilder;
 public class AppSessionData {
 
     private static AppSessionData appSessionData;
-    private User user;
     SharedPreferences pref;
 
     //app level names
@@ -22,20 +22,26 @@ public class AppSessionData {
 
     public static final String SHRPRF_KEY_USER = "USER";
 
+    /**
+     * Create private constructor
+     */
     private AppSessionData() {
+    }
+
+    /**
+     * Create a static method to get instance.
+     */
+    public static AppSessionData getSessionDataInstance() {
         if (appSessionData == null) {
             appSessionData = new AppSessionData();
         }
-    }
-
-    public static AppSessionData getSessionDataInstance() {
         return appSessionData;
     }
 
-    public void setCurrentUser(User user, Context context) {
+    public void setCurrentUser(User user) {
 
         if (pref == null) {
-            pref = context.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+            pref = FHFApplication.getAppContext().getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
         }
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.create();
@@ -46,9 +52,9 @@ public class AppSessionData {
         editor.commit();
     }
 
-    public static String getValueFromSharedPreferences(String key, Context context) {
+    public static String getValueFromSharedPreferences(String key) {
         Gson gson = new Gson();
-        SharedPreferences pref = context.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences pref = FHFApplication.getAppContext().getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
 
         String value = pref.getString(key, "");
         User userDataModel = gson.fromJson(value, User.class);

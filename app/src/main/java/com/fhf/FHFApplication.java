@@ -28,6 +28,7 @@ public class FHFApplication extends Application {
     private static Context context;
     public static final int PROD = 0;
     public static final int DEV = 1;
+    public static final int LOCAL = 2;
     public static int env = DEV;
     private static EnvironmentSettings envSettings;
     public static String environment;
@@ -41,7 +42,7 @@ public class FHFApplication extends Application {
         FacebookSdk.sdkInitialize(getApplicationContext());
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.fhf",  // replace with your unique package name
+                    "com.fhf",  // replace with your unique package username
                     PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
@@ -71,6 +72,10 @@ public class FHFApplication extends Application {
                 case DEV:
                     settingsFile = "app_settings_dev.json";
                     environment = "dev";
+                    break;
+                case LOCAL:
+                    settingsFile = "app_settings_local.json";
+                    environment = "local";
                     break;
             }
             InputStream inputStream = this.getAssets().open(settingsFile);

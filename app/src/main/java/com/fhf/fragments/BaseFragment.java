@@ -208,7 +208,7 @@ public class BaseFragment extends Fragment {
                 }
             }
 
-            // Create a media file name
+            // Create a media file username
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                     Locale.getDefault()).format(new Date());
             if (type == AppConstants.MEDIA_TYPE_IMAGE) {

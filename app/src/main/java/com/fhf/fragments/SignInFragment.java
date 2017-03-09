@@ -126,8 +126,8 @@ public class SignInFragment extends BaseFragment implements View.OnClickListener
         tvSignUp.setOnClickListener(this);
         tvForgotPwd.setOnClickListener(this);
 
-        edtEmail.setText("santu758.msb@gmail.com");
-        edtPwd.setText("test1234");
+//        edtEmail.setText("santu758.msb@gmail.com");
+//        edtPwd.setText("test1234");
     }
 
     @Override
@@ -223,19 +223,19 @@ public class SignInFragment extends BaseFragment implements View.OnClickListener
                                 user = new User();
                                 user.facebookID = object.getString("id").toString();
                                 user.email = object.getString("email").toString();
-                                user.name = object.getString("name").toString();
+                                user.username = object.getString("username").toString();
                                 user.gender = object.getString("gender").toString();
-                                AppSessionData.getSessionDataInstance().setCurrentUser(user, getActivity());
+                                AppSessionData.getSessionDataInstance().setCurrentUser(user);
 
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            Toast.makeText(getActivity(), "welcome " + user.name, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "welcome " + user.username, Toast.LENGTH_LONG).show();
                         }
                     });
 
             Bundle parameters = new Bundle();
-            parameters.putString("fields", "id,name,email,gender, birthday");
+            parameters.putString("fields", "id,username,email,gender, birthday");
             request.setParameters(parameters);
             request.executeAsync();
         }
@@ -422,7 +422,7 @@ public class SignInFragment extends BaseFragment implements View.OnClickListener
 
 
     /*
-     get user's information name, email, profile pic,Date of birth,tag line and about me
+     get user's information username, email, profile pic,Date of birth,tag line and about me
      */
 
     private void getProfileInfo() {
