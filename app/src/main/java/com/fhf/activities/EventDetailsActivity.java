@@ -39,9 +39,10 @@ public class EventDetailsActivity extends BaseActivity implements ViewPager.OnPa
         setContentView(R.layout.activity_event_details);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Event Details");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("Event Details");
+
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

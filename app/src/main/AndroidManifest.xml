@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     package="com.fhf">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -36,6 +37,9 @@
         <activity
             android:name=".activities.EventDetailsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.FullScreenViewActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
     </application>
 
 </manifest>

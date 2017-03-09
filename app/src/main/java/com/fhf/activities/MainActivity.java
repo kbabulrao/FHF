@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,6 +52,9 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        getSupportActionBar().setTitle("Home");
+        loadFragment(new HomeFragment(), R.id.content_main, "Home");
     }
 
     @Override
@@ -129,6 +131,7 @@ public class MainActivity extends BaseActivity
 
         }
 
+        getSupportActionBar().setTitle(tag);
         loadFragment(fragment, R.id.content_main, tag);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
