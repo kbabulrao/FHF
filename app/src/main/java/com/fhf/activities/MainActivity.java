@@ -12,8 +12,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fhf.R;
+import com.fhf.custom.CircleTransform;
+import com.fhf.data.AppSessionData;
+import com.fhf.data.User;
 import com.fhf.fragments.AboutUsFragment;
 import com.fhf.fragments.ChatFragment;
 import com.fhf.fragments.ContactUsFragment;
@@ -27,6 +34,15 @@ import com.fhf.fragments.ShareFragment;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private View navHeader;
+    private ImageView imgNavHeaderBg, imgProfile;
+    private TextView txtName, txtEmail;
+
+    // urls to load navigation header background image
+    // and profile image
+    private static final String urlNavHeaderBg = "http://api.androidhive.info/images/nav-menu-header-bg.jpg";
+    private static final String urlProfileImg = "https://lh3.googleusercontent.com/eCtE_G34M9ygdkmOpYvCag1vBARCmZwnVS6rS5t4JLzJ6QgQSBquM0nuTsCpLhYbKljoyS-txg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +69,115 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        getSupportActionBar().setTitle("Home");
-        loadFragment(new HomeFragment(), R.id.content_main, "Home");
+        // Navigation view header
+        navHeader = navigationView.getHeaderView(0);
+        txtName = (TextView) navHeader.findViewById(R.id.tv_name);
+        txtEmail = (TextView) navHeader.findViewById(R.id.tv_mail);
+        imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
+        imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
+
+        // load nav menu header data
+        loadNavHeader();
+
+        // initializing navigation menu
+//        setUpNavigationView();
+
+        if (savedInstanceState == null) {
+            getSupportActionBar().setTitle("Home");
+            loadFragment(new HomeFragment(), R.id.content_main, "Home");
+//            loadHomeFragment();
+        }
     }
 
+    /***
+     * Load navigation menu header information
+     * like background image, profile image
+     * name, website, notifications action view (dot)
+     */
+    private void loadNavHeader() {
+        // name, website
+        User user = AppSessionData.getSessionDataInstance().getValueFromSharedPreferences();
+        txtName.setText(user.getUsername());
+        txtEmail.setText(user.getEmail());
+
+        // loading header background image
+        Glide.with(this).load(urlNavHeaderBg)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imgNavHeaderBg);
+
+        // Loading profile image
+        Glide.with(this).load(urlProfileImg)
+                .crossFade()
+                .thumbnail(0.5f)
+                .bitmapTransform(new CircleTransform(this))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imgProfile);
+
+        // showing dot next to notifications label
+//        navigationView.getMenu().getItem(3).setActionView(R.layout.menu_dot);
+    }
+
+    /***
+     * Returns respected fragment that user
+     * selected from navigation menu
+     */
+    /*private void loadHomeFragment() {
+        // selecting appropriate nav menu item
+        selectNavMenu();
+
+        // set toolbar title
+        setToolbarTitle();
+
+        // if user select the current navigation menu again, don't do anything
+        // just close the navigation drawer
+        if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null) {
+            drawer.closeDrawers();
+
+            // show or hide the fab button
+            toggleFab();
+            return;
+        }
+
+        // Sometimes, when fragment has huge data, screen seems hanging
+        // when switching between navigation menus
+        // So using runnable, the fragment is loaded with cross fade effect
+        // This effect can be seen in GMail app
+        Runnable mPendingRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // update the main content by replacing fragments
+                Fragment fragment = getHomeFragment();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
+                fragmentTransaction.commitAllowingStateLoss();
+            }
+        };
+
+        // If mPendingRunnable is not null, then add to the message queue
+        if (mPendingRunnable != null) {
+            mHandler.post(mPendingRunnable);
+        }
+
+        // show or hide the fab button
+        toggleFab();
+
+        //Closing drawer on item click
+        drawer.closeDrawers();
+
+        // refresh toolbar menu
+        invalidateOptionsMenu();
+    }
+
+    private void setToolbarTitle() {
+        getSupportActionBar().setTitle(activityTitles[navItemIndex]);
+    }
+
+    private void selectNavMenu() {
+        navigationView.getMenu().getItem(navItemIndex).setChecked(true);
+    }*/
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

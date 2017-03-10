@@ -52,13 +52,12 @@ public class AppSessionData {
         editor.commit();
     }
 
-    public static String getValueFromSharedPreferences(String key) {
+    public User getValueFromSharedPreferences() {
         Gson gson = new Gson();
         SharedPreferences pref = FHFApplication.getAppContext().getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
 
-        String value = pref.getString(key, "");
-        User userDataModel = gson.fromJson(value, User.class);
-        return value;
+        String value = pref.getString(SHRPRF_KEY_USER, "");
+        return gson.fromJson(value, User.class);
 
     }
 }
