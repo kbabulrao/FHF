@@ -11,6 +11,7 @@ public class AppConstants {
     public static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 3;
     public static final int SIGN_IN_SERVICE_REQUEST = 4;
     public static final int SIGN_UP_SERVICE_REQUEST = 5;
+    public static final int FORGOT_PWD_SERVICE_REQUEST = 6;
     public static final String IMAGE_DIRECTORY_NAME = "FHF_File_Upload";
 
     /* Service constants*/

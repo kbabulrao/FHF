@@ -75,11 +75,30 @@ public class SignInService extends BaseFHFService implements WebServiceResultLis
                 null, AppConstants.LOGIN_SERVICE);
     }
 
+    public void recoveryPassword(String email) {
+        broadcastIntent = new Intent(AppConstants.LOGIN_SERVICE);
+        BaseWsImpl baseWs = new BaseWsImpl(AppConstants.FORGOT_PWD_SERVICE_REQUEST, this) {
+            @Override
+            protected void parseResponse(Object response) {
+                onServiceCompleted(response, null, getReqId());
+            }
+        };
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(AppConstants.EMAIL, email);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        baseWs.getService(WsUrlConstants.FORGOT_PWD_SERVICE_ENDPOINT.replace(WsUrlConstants.EMAIL, email),
+                null, AppConstants.LOGIN_SERVICE);
+    }
+
+
     @Override
     public void onServiceCompleted(Object response, Object error, int reqId) {
         if (error == null) {
+            broadcastIntent.putExtra(AppConstants.SUCCESS_TEXT, true);
             if (AppConstants.SIGN_IN_SERVICE_REQUEST == reqId) {
-                broadcastIntent.putExtra(AppConstants.SUCCESS_TEXT, true);
 //                try {
                 JsonReader jsonReader = new JsonReader(new InputStreamReader(new ByteArrayInputStream(response.toString().getBytes())));
                 User user = gson.fromJson(jsonReader, User.class);
@@ -106,6 +125,13 @@ public class SignInService extends BaseFHFService implements WebServiceResultLis
                     } else {
                         broadcastIntent.putExtra("error_msg", user.getMessage());
                     }
+                }
+            } else if (AppConstants.FORGOT_PWD_SERVICE_REQUEST == reqId) {
+                try {
+                    JSONObject jsonObject = (JSONObject) response;
+                    broadcastIntent.putExtra("msg", jsonObject.getString("message"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         } else {

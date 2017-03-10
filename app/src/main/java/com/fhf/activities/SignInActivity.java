@@ -28,6 +28,7 @@ import com.fhf.utils.Utils;
 public class SignInActivity extends BaseActivity implements CommunicationListener {
 
     SignInServiceResultReceiver signInServiceResultReceiver;
+    ForgotPasswordResultReceiver forgotPasswordResultReceiver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -135,5 +136,51 @@ public class SignInActivity extends BaseActivity implements CommunicationListene
         registerSignInReceiver();
         SignInService signInService = new SignInService(this);
         signInService.registerUser(username, phone, email, password);
+    }
+
+    public void callForgotPasswordWebService(String email) {
+        registerForgotPasswordReceiver();
+        SignInService signInService = new SignInService(this);
+        signInService.recoveryPassword(email);
+    }
+
+    private void registerForgotPasswordReceiver() {
+        if (signInServiceResultReceiver == null) {
+            progressDlg.show();
+            forgotPasswordResultReceiver = new ForgotPasswordResultReceiver();
+            IntentFilter intentFilter = new IntentFilter(AppConstants.LOGIN_SERVICE);
+            LocalBroadcastManager.getInstance(this).registerReceiver(forgotPasswordResultReceiver, intentFilter);
+        }
+    }
+
+    private void unRegisterForgotPasswordServiceResultReceiver() {
+        if (forgotPasswordResultReceiver != null) {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(forgotPasswordResultReceiver);
+            forgotPasswordResultReceiver = null;
+        }
+    }
+
+    private class ForgotPasswordResultReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            unRegisterForgotPasswordServiceResultReceiver();
+            if (!isFinishing()) {
+                if (progressDlg != null && progressDlg.isShowing()) {
+                    progressDlg.dismiss();
+                }
+                if (intent.getBooleanExtra(AppConstants.SUCCESS_TEXT, false)) {
+                    if (intent.getStringExtra("msg").equalsIgnoreCase("reset password link sent to mail")) {
+                        getSupportFragmentManager().popBackStack();
+                        fragmentHandle();
+                    } else {
+                        Utils.showSnackBarWithoutAction(SignInActivity.this, toolbar, intent.getStringExtra("msg"));
+                    }
+                } else {
+                    VolleyError volleyError = new VolleyError(intent.getStringExtra(AppConstants.ERROR_TEXT));
+                    Utils.showSnackBarWithoutAction(SignInActivity.this, toolbar, volleyError);
+//                Toast.makeText(SignInActivity.this, intent.getStringExtra(AppConstants.ERROR_TEXT), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 }
