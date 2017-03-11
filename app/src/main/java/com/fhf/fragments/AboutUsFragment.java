@@ -1,7 +1,11 @@
 package com.fhf.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +38,7 @@ public class AboutUsFragment extends BaseFragment {
     void findViews(View view) {
         tvAbout = (TextView) view.findViewById(R.id.tv_about_us);
         tvAbout.setMovementMethod(new ScrollingMovementMethod());
+        tvAbout.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
