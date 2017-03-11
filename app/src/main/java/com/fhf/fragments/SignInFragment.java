@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -66,6 +67,7 @@ public class SignInFragment extends BaseFragment implements View.OnClickListener
     TextView tvSignIn, tvSignUp, tvForgotPwd;
     EditText edtEmail, edtPwd;
     Button btnFacebook, btnGoogle;
+    CheckBox cbRemember;
     LoginButton loginButton;
     ProgressDialog progressDialog;
     CallbackManager callbackManager;
@@ -116,6 +118,7 @@ public class SignInFragment extends BaseFragment implements View.OnClickListener
         btnFacebook = (Button) view.findViewById(R.id.btn_facebook);
         btnGoogle = (Button) view.findViewById(R.id.btn_google_plus);
 
+        cbRemember = (CheckBox) view.findViewById(R.id.cb_remember_me);
         loginButton = (LoginButton) view.findViewById(R.id.login_button);
 
         customizeSignBtn(view);
@@ -153,6 +156,7 @@ public class SignInFragment extends BaseFragment implements View.OnClickListener
     void validateUser() {
         if (Utils.isValidEmail(edtEmail.getText().toString().trim()) && !TextUtils.isEmpty(edtPwd.getText().toString().trim())) {
             ((SignInActivity) getActivity()).callSignInWebService(edtEmail.getText().toString().trim(), edtPwd.getText().toString().trim());
+            AppSessionData.getSessionDataInstance().setUserRemember(cbRemember.isChecked());
         } else {
             Toast.makeText(getActivity(), "Please check your username/password", Toast.LENGTH_SHORT).show();
         }

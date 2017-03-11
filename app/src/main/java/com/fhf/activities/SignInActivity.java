@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.fhf.R;
 import com.fhf.constants.AppConstants;
+import com.fhf.data.AppSessionData;
 import com.fhf.fragments.SignInFragment;
 import com.fhf.interfaces.CommunicationListener;
 import com.fhf.services.SignInService;
@@ -94,8 +95,10 @@ public class SignInActivity extends BaseActivity implements CommunicationListene
                         redirectToHomeActivity();
                     } else {
                         Utils.showSnackBarWithoutAction(SignInActivity.this, toolbar, intent.getStringExtra("error_msg"));
+                        AppSessionData.getSessionDataInstance().setUserRemember(false);
                     }
                 } else {
+                    AppSessionData.getSessionDataInstance().setUserRemember(false);
                     VolleyError volleyError = new VolleyError(intent.getStringExtra(AppConstants.ERROR_TEXT));
                     Utils.showSnackBarWithoutAction(SignInActivity.this, toolbar, volleyError);
 //                Toast.makeText(SignInActivity.this, intent.getStringExtra(AppConstants.ERROR_TEXT), Toast.LENGTH_SHORT).show();

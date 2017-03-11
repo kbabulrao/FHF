@@ -30,6 +30,10 @@
     <string name="submit">SUBMIT</string>
     <string name="notifications">Notifications</string>
     <string name="change_password">Change Pasword</string>
+    <string name="about_app"><b>Welcome to Friends Helping Friends Organization </b>\n\n
+<p align="left">At FHF, love, care and ultimate support to the needy and the deprived is what we firmly focus upon. For children who work as slaves in houses or who beg on road side to live their daily lives, we approach them and provide them all the essentials comprising of food, clothing, shelter and education and mould them as better citizens in the society. We also offer them with self-employment facilities which are provided to them free of cost. We always ensure to serve them with clean and hygienic food since we pay an ultimate concern towards their health and well-being.</p>
+    \n\n For more info click on below link \n\n <a href="www.friendshelpingfriends.in">www.friendshelpingfriends.in</a> \n
+    </string>
 
     <string name="facebook_app_id">415313148637614</string><!-- TO-DO replace facebook APP-ID-->
 </resources>

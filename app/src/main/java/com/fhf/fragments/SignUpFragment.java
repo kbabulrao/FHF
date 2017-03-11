@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.facebook.CallbackManager;
 import com.fhf.R;
 import com.fhf.activities.SignInActivity;
+import com.fhf.data.AppSessionData;
 import com.fhf.interfaces.CommunicationListener;
 import com.fhf.utils.Utils;
 
@@ -83,6 +84,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
                                 ((SignInActivity) getActivity()).callSignUpWebService(edtUsername.getText().toString().trim(),
                                         edtPhone.getText().toString().trim(), edtEmail.getText().toString().trim(),
                                         edtPwd.getText().toString().trim());
+                                AppSessionData.getSessionDataInstance().setUserRemember(true);
                             } else {
                                 Toast.makeText(getActivity(), "Password and confirm password should be same", Toast.LENGTH_SHORT).show();
                             }

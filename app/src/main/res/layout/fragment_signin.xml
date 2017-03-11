@@ -127,7 +127,7 @@
                 android:padding="5dp" />
 
             <CheckBox
-                android:id="@+id/cb_agree_terms"
+                android:id="@+id/cb_remember_me"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
