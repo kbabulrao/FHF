@@ -1,6 +1,7 @@
 package com.fhf.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.fhf.R;
+import com.fhf.activities.FullScreenViewActivity;
+import com.fhf.activities.GalleryImagesActivity;
 import com.fhf.adapters.CustomGridViewAdapter;
 
 /**
@@ -50,6 +53,9 @@ public class GalleryFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int i, long id) {
                 Toast.makeText(getActivity(), "GridView Item: " + gridViewString[+i], Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getContext(), GalleryImagesActivity.class);
+                intent.putExtra("position", (int) view.getTag());
+                startActivity(intent);
             }
         });
 

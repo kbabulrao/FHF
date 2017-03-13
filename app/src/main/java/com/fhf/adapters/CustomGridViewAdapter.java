@@ -55,9 +55,11 @@ public class CustomGridViewAdapter extends BaseAdapter {
             ImageView imageViewAndroid = (ImageView) gridViewAndroid.findViewById(R.id.android_gridview_image);
             textViewAndroid.setText(gridViewString[i]);
             imageViewAndroid.setImageResource(gridViewImageId[i]);
+
         } else {
             gridViewAndroid = (View) convertView;
         }
+        gridViewAndroid.setTag(i);
 
         return gridViewAndroid;
     }
